@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Secondary Cone Cruiser, v. 2.0</title>
+    <link rel="stylesheet" href="style/style.css" type="text/css" media="screen">
+    <script type="text/javascript" src="style/accordian.pack.js">
+    </script>
+    <style type="text/css">
+        ol.split {
+            list-style-type: none;
+        }
+
+        ol.split li:before {
+                counter-increment: mycounter;
+                content: counter(mycounter) ".\00A0\00A0";
+            }
+
+        ol.split li {
+                text-indent: -1.3em;
+            }
+
+        ol.start {
+            counter-reset: mycounter;
+        }
+    </style>
+</head>
+
+<body onload="new Accordian('basic-accordian',5,'header_highlight');">
+<!--  <div id="logo"><h1>On the regularity radius of Delone sets in R<sup>3</sup></h1></div>
+<br />-->
+
+<!--    <div id="general-header">General information</div>-->
+    <div id="general-content">
+        <div>
+            <h2>Secondary Cone Cruiser, v. 2.0</h2>
+            <!--<table>
+                <tr>
+                    <td style="width:30%; vertical-align:top">
+                        <img src="garber.jpg" width=324 height=358 alt="Photo">
+                    </td>
+
+                    <td style="width:70%">
+
+                        <h3 style="font-size:x-large">
+                            Alexey Garber
+                        </h3>
+
+                        <p>Assistant Professor</p>
+                        <p>Ph.D. (2009, Steklov Mathematical Institute, Russian Academy of Sciences)</p>
+
+
+
+                        <h4>Contact information:</h4>
+                        LHSB 2.518
+                        <br>School of Mathematical &amp; Statistical Sciences
+                        <br>The University of Texas Rio Grande Valley
+                        <br>Brownsville, TX, 78520
+                        <p>tel: +1 956 882 6672
+                        <p>
+                            e-mail: <a href="mailto:alexey.garber@utrgv.edu">alexey.garber@utrgv.edu</a>
+
+
+                            <br>
+
+                    </td>
+                </tr>
+            </table>-->
+        </div>
+    </div>
+
+    <div id="basic-accordian">
+    <div id="test-header" class="accordion_headings header_highlight">User's Guide for <tt>scc 2.0</tt> (secondary cone cruiser)</div>
+    <div id="test-content">
+      <div class="accordion_child">
+<!--        <h1>Welcome to my personal web-page</h1>
+          <table border=0 width="100%">
+              <tr>
+                  <td width=320 valign=top>
+                      <img src="garber.jpg" width=324 height=358 hspace=15 vspace=15 border=0 align=left>
+                  </td>
+
+                  <td>
+                      <center>
+                          <h3>
+                              <font size=+2>Alexey Garber</font>
+                          </h3>
+                          LHSB 2.518
+                          <br>School of Mathematical &amp; Statistical Sciences
+                          <br>The University of Texas Rio Grande Valley
+                          <br>Brownsville, TX, 78520
+                          <p>tel: +1 956 882 6672
+                          <p>e-mail: <a href="mailto: alexey.garber at utrgv.edu">alexey.garber at utrgv.edu</a>
+                      </center>
+
+                      <br>
+
+                      <center>
+                          <p>Assistant Professor</p>
+                          <p>Ph.D. (2009, Steklov Mathematical Institute)</p>
+                          <p>Faculty member since 2014</p>
+                      </center>
+                  </td>
+              </tr>
+          </table>-->
+
+ <div style="text-align: center;">
+<!--<img style="width: 130px; height: 130px;" alt="" src="scc2.gif"> <br>
+<h1>User's Guide for <tt>scc 2.0</tt> (secondary cone cruiser)</h1>-->
+
+
+<div style="text-align: left;">
+<span style="font-weight: bold;"><span style="font-weight: bold;"></span></span>
+
+This page is copy of <tt>scc</tt> guide posted at Achill Sch&uuml;rmann's <a href="https://www.mathematik.uni-rostock.de/struktur/professuren-apl-prof/geometrie/people/achill/" target="_blank">web-page</a>. <br><br>
+
+The <tt>scc</tt> source can be found at Achill Sch&uuml;rmann's software <a href="https://www.mathematik.uni-rostock.de/struktur/professuren-apl-prof/geometrie/software/" target="_blank">page</a>. <br><br>
+
+<tt>scc</tt> is an implementation of Voronoi's reduction theory 
+by <a href="http://www.mi.uni-koeln.de/opt/frank-vallentin/" target="_blank">Frank Vallentin</a> 
+and <a href="https://www.mathematik.uni-rostock.de/struktur/professuren-apl-prof/geometrie/people/achill/" target="_blank">Achill Sch&uuml;rmann</a>.
+It allows to cruise through the secondary cones of Delone triangulation
+(also known as L-type domains).
+  See the paper
+<a href="http://arxiv.org/abs/math.MG/0403272" target="_blank">"Computational approaches to lattice packing and covering problems"</a>
+for a detailed description and applications to the
+construction of lattices with extremal properties.
+<tt>scc</tt> can in particular produce input files
+for <tt>coop</tt>
+and <tt>pacoop</tt>.
+Its new version, <tt>scc 2.0</tt> 
+by <a href="https://faculty.utrgv.edu/alexey.garber" target="_blank">Alexey Garber</a>,
+can also compute the list of all Delone decompositions, by cruising through all faces of full-dimensional secondary cones. The test whether or not two Delone decompositions are equivalent is now done by testing arithmetic equivalence of central reduced quadratic forms, using the program <tt>ISOM</tt> by Bernd Souvignier.
+As a consequence the program is much faster now and allows to
+obtain a complete list of 110244 inequivalent Delone decompositions
+in dimension 5.
+See the paper 
+<a href="http://arxiv.org/abs/1507.00238" target="_blank">"The complete classification of five-dimensional Dirichlet-Voronoi polyhedra of translational lattices"</a>
+for further information.
+
+
+<br>
+<br>
+
+
+
+<h3>USAGE:</h3>
+
+<tt>
+<pre>
+scc [options] &lt; file
+Options:
+ -h   show this help
+ -d D work in dimension D (required)
+ -a   find all Delone decompositions
+ -r N do a random walk of length N
+ -g   greedy approach
+ -i   read triangulation from file
+ -w   write coop file for every secondary cone
+ -v   write central form information for every cone (only if -a option is chosen)
+</pre>
+</tt>
+
+
+<h3>EXAMPLES:</h3>
+
+<ol>
+
+<li>
+<tt>
+<pre>
+scc -d4
+
+*** sc ***
+***  c ***
+
+Time: 19:37:47
+Looking at #0
+ * Remaining: 0
+ * There are 10 neighbours.
+ * (0->1) (1=1) (2=1) (3=1) (4=1) (5=1) (6=1) (7=1) (8=1) (9=1) 
+
+Time: 19:37:47
+Looking at #1
+ * Remaining: 0
+ * There are 10 neighbours.
+ * (0=1) (1=1) (2=1) (3=1) (4=1) (5=0) (6->2) (7=2) (8=2) (9=1) 
+
+Time: 19:37:47
+Looking at #2
+ * Remaining: 0
+ * There are 10 neighbours.
+ * (0=1) (1=1) (2=1) (3=1) (4=1) (5=1) (6=1) (7=1) (8=2) (9=1) 
+
+--
+</pre>
+</tt>
+</li>
+
+<br>
+<br>
+
+<li>
+<tt>
+<pre>
+scc -d4 -a
+
+*** sc ***
+***  c ***
+
+Time: 19:28:39
+Looking at #0
+ * Remaining: 0
+ * There are 10 neighbours.
+ * (0->1) (1=1) (2=1) (3=1) (4=1) (5=1) (6=1) (7=1) (8=1) (9=1) 
+
+Time: 19:28:39
+Looking at #1
+ * Remaining: 0
+ * There are 10 neighbours.
+ * (0=1) (1=1) (2=1) (3=1) (4=1) (5=0) (6->2) (7=2) (8=2) (9=1) 
+
+Time: 19:28:39
+Looking at #2
+ * Remaining: 0
+ * There are 10 neighbours.
+ * (0=1) (1=1) (2=1) (3=1) (4=1) (5=1) (6=1) (7=1) (8=2) (9=1) 
+
+--
+Classification of Delone triangulations completed!
+There are 3 non-equivalent Delone triangulations in dimension 4.
+
+Starting classification of arbitrary Delone decompositions
+There are 3 forms of codimension 0
+Time: 19:28:39
+There are 4 forms of codimension 1
+Time: 19:28:39
+There are 7 forms of codimension 2
+Time: 19:28:39
+There are 11 forms of codimension 3
+Time: 19:28:39
+There are 10 forms of codimension 4
+Time: 19:28:39
+There are 8 forms of codimension 5
+Time: 19:28:39
+There are 5 forms of codimension 6
+Time: 19:28:39
+There are 2 forms of codimension 7
+Time: 19:28:39
+There are 1 forms of codimension 8
+Time: 19:28:39
+There are 1 forms of codimension 9
+Time: 19:28:39
+
+Number of differrent decompositions: 52
+*******
+</pre>
+</tt>
+</li>
+<br>
+<br>
+<li>
+<tt>
+<pre>
+scc -d6 -r4 -w
+
+*** sc ***
+***  c ***
+
+Time: 19:38:56
+Looking at #0 (normalized covering density >= 0.493668)
+ * There are 21 neighbours.
+ * Write output for COOP 
+ * Proceed with number 1.
+
+Time: 19:38:56
+Looking at #1 (normalized covering density >= 0.499392)
+ * There are 21 neighbours.
+ * Write output for COOP 
+ * Proceed with number 4.
+
+Time: 19:38:56
+Looking at #2 (normalized covering density >= 0.502569)
+ * There are 21 neighbours.
+ * Write output for COOP 
+ * Proceed with number 9.
+
+Time: 19:38:57
+Looking at #3 (normalized covering density >= 0.508167)
+ * There are 21 neighbours.
+ * Write output for COOP 
+ * Proceed with number 19.
+</pre>
+</tt>
+</li>
+
+<br>
+<br>
+
+<li>
+<tt>
+<pre>
+scc -d6 -g -i &lt;sc6_3.coop
+
+*** sc ***
+***  c ***
+
+Time: 19:51:13
+Looking at #0 (normalized covering density >= 0.508167)
+ * There are 21 neighbours.
+
+Time: 19:51:13
+Looking at #1 (normalized covering density >= 0.502569)
+ * There are 21 neighbours.
+
+Time: 19:51:14
+Looking at #2 (normalized covering density >= 0.499392)
+ * There are 21 neighbours.
+
+Time: 19:51:14
+Looking at #3 (normalized covering density >= 0.493668)
+ * There are 21 neighbours.
+</pre>
+</tt>
+</li>
+
+
+<br>
+</ol>
+
+
+<h3>INTERPRETATION:</h3>
+
+<ol>
+<li>
+Classifies all secondary cones in dimension 4.
+</li>
+
+<li>
+Classifies all secondary cones in dimension 4.
+After the classification of full dimensional secondary cones
+(Delone triangulations)
+their faces are classified as well
+(giving all Delone decompositions).
+</li>
+
+
+<li>
+Takes a random walk of length 4 from Voronoi's first type and writes
+all found secondary cones into coop-format with file names
+<tt>sc6_0.coop</tt> ... <tt>sc6_3.coop</tt>
+</li>
+
+<li>
+Reads <tt>sc6_3.coop</tt> and takes a greedy approach to find a
+local minimum of the lower bound.
+</li>
+
+</ol>
+
+
+<h3>INSTALLATION:</h3>
+
+To install <tt>scc</tt> you have to install GMP first. On a linux system this can usually be done by running <tt>apt-get install libgmp3-dev</tt>.
+<br>
+<br>
+Then you have to install <a
+href="http://www.shoup.net/ntl">NTL</a> (A Library for doing Number
+Theory) of Victor Shoup; you should allow GMP support in NTL, so you should configure it with <tt>NTL_GMP_LIP=on</tt>. 
+<br>
+<br>
+Then run <tt>make</tt> of <tt>scc</tt>. 
+You may have to edit the variable <tt>CXXFlags</tt> in the
+<tt>Makefile</tt> so that it finds NTL. 
+<br>
+<br>
+Also you might need to remove the <tt>-m64</tt> flag from the <tt>Makefile</tt> if you use non 64-bit architecture OS.
+
+    
+    <!--<div id="test2-header" class="accordion_headings">Another Page</div>
+    <div id="test2-content">
+      <div class="accordion_child">
+        <h1>Image Layout</h1>
+        <p>images can be placed on the left, in the center or on the right:</p>
+        <span class="left"><img src="style/graphic.jpg" alt="example graphic"></span>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+          irure dolor in reprehenderit in voluptate velit esse cillum.
+        </p>
+        <span class="center"><img src="style/graphic.jpg" alt="example graphic"></span>
+        <span class="right"><img src="style/graphic.jpg" alt="example graphic"></span>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
+        </p>
+      </div>
+    </div>-->
+
+    <!--<div id="test3-header" class="accordion_headings">And Another Page</div>
+    <div id="test3-content">
+      <div class="accordion_child">
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc ligula nisl, egestas non, pharetra vel, scelerisque accumsan, lacus. Proin nibh. Aenean dapibus. Quisque facilisis, ligula ut blandit hendrerit, purus neque rhoncus ipsum, sit amet ultrices mauris augue non arcu. Donec et sem nec libero viverra accumsan.</p>
+        <h2>List Examples</h2>
+        <p>This is an unordered list:</p>
+        <ul><li>Item 1</li>
+          <li>Item 2</li>
+        </ul><p>This is an ordered list:</p>
+        <ol><li>Item 1</li>
+          <li>Item 2</li>
+        </ol></div>
+    </div>-->
+
+   <!-- <div id="test4-header" class="accordion_headings">Contact Us</div>
+    <div id="test4-content">
+      <div class="accordion_child">
+        <p>Below is an example of how a contact form might look with this template:</p>
+        <form action="#" method="post">
+          <div class="form_settings">
+            <p><span>Name</span><input class="contact" type="text" name="your_name" value=""></p>
+            <p><span>Email Address</span><input class="contact" type="text" name="your_email" value=""></p>
+            <p><span>Message</span><textarea class="contact textarea" rows="8" cols="50" name="your_enquiry"></textarea></p>
+            <p style="padding-top: 15px"><span> </span><input class="submit" type="submit" name="contact_submitted" value="submit"></p>
+          </div>
+        </form>
+        <p><br><br>NOTE: A contact form such as this would require some way of emailing the input to an email address.</p>
+      </div>
+    </div>-->
+  </div>
+  <div id="footer">
+    <p>© 2016-2018 Alexey Garber | <a href="http://validator.w3.org/check?uri=referer">HTML 5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">design from HTML5webtemplates.co.uk</a> | <a href="http://dezinerfolio.com">AJAX by DezinerFolio</a>
+</p>
+  </div>
+</body></html>
