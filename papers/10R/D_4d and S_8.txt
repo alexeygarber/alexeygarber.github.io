@@ -1,0 +1,275 @@
+(*
+{0,0,0} - starting point;
+1 - minimal distance;
+{a,0,b} - point generating antiprism;
+{x,y,z} - vector from {a,0,b} pointing to another vertex of antiprism centered at {a,0,b}.
+*)
+NMaximize[{
+Min[
+EuclideanDistance[{-a,0,b},{x+a,y,z+b}],
+EuclideanDistance[{0,a,b},{x+a,y,z+b}],
+EuclideanDistance[{0,-a,b},{x+a,y,z+b}],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{x+a,y,z+b}],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{x+a,y,z+b}],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{x+a,y,z+b}],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{x+a,y,z+b}],
+
+EuclideanDistance[{-a,0,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,a,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,-a,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+
+EuclideanDistance[{-a,0,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,a,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,-a,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+
+EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+
+EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]
+],
+{a^2+b^2==1, (* Condition for distance 1 *)
+a^2>=b^2, (* Condition for side of the base to be at least 1 *)
+a^2(1-Sqrt[2])+3b^2>=0, (* Condition for distance between different bases at least 1 *)
+x^2+y^2+z^2==1, (* Condition for the antiprism at {a,0,b} *)
+a*x+b*z==a^2-b^2 (* Condition for the second antiprism to be congruent *)
+}
+},
+{x,y,z,a,b}]
+{0.598038,{x->0.373229,y->0.768033,z->0.520409,a->-0.73451,b->0.678598}}
+(*
+{0,0,0} - starting point;
+1 - minimal distance;
+{a,0,b} - point generating antiprism;
+{x,y,z} - vector from {a,0,b} pointing to another vertex of antiprism centered at {a,0,b}.
+*)
+NMaximize[{
+Min[
+EuclideanDistance[{-a,0,b},{x+a,y,z+b}],
+EuclideanDistance[{0,a,b},{x+a,y,z+b}],
+EuclideanDistance[{0,-a,b},{x+a,y,z+b}],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{x+a,y,z+b}],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{x+a,y,z+b}],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{x+a,y,z+b}],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{x+a,y,z+b}],
+
+EuclideanDistance[{-a,0,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,a,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,-a,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)],
+
+EuclideanDistance[{-a,0,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,a,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{0,-a,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)],
+
+EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+
+EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+
+EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+
+EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)],
+EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]
+
+],
+{a^2+b^2==1, (* Condition for distance 1 *)
+a^2>=b^2, (* Condition for side of the base to be at least 1 *)
+a^2(1-Sqrt[2])+3b^2>=0, (* Condition for distance between different bases at least 1 *)
+x^2+y^2+z^2==1, (* Condition for the antiprism at {a,0,b} *)
+a*x+b*z==a^2-b^2 (* Condition for the second antiprism to be congruent *)
+}
+},
+{x,y,z,a,b}]
+{0.598038,{x->0.373229,y->0.768033,z->0.520409,a->-0.73451,b->0.678598}}
+(*
+{0,0,0} - starting point;
+1 - minimal distance;
+{a,0,b} - point generating antiprism;
+{x,y,z} - vector from {a,0,b} pointing to another vertex of antiprism centered at {a,0,b}.
+*)
+f[x_]:=Piecewise[{{3,x<0.01},{x,x>=0.01}}];
+(* Function to make sure that minimal distance between different points*)
+
+NMaximize[{
+Min[
+f[EuclideanDistance[{-a,0,b},{x+a,y,z+b}]],
+f[EuclideanDistance[{0,a,b},{x+a,y,z+b}]],
+f[EuclideanDistance[{0,-a,b},{x+a,y,z+b}]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{x+a,y,z+b}]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{x+a,y,z+b}]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{x+a,y,z+b}]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{x+a,y,z+b}]],
+
+f[EuclideanDistance[{-a,0,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{0,a,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{0,-a,b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}+{b*y,z*a-x*b,-a*y}/(2*b)]],
+
+f[EuclideanDistance[{-a,0,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{0,a,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{0,-a,b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(x+a)/2,y/2,(z+b)/2}-{b*y,z*a-x*b,-a*y}/(2*b)]],
+
+f[EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+
+f[EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]+{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+
+f[EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}+{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+
+f[EuclideanDistance[{-a,0,b},
+{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{0,-a,b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]],
+f[EuclideanDistance[{-a/Sqrt[2],-a/Sqrt[2],b},{(3*a-x)/2,-y/2,(3*b-z)/2}-{(x+a)/2,y/2,(z+b)/2}/Sqrt[2]-{b*y,z*a-x*b,-a*y}/(2*Sqrt[2]*b)]]
+
+],
+{a^2+b^2==1, (* Condition for distance 1 *)
+a^2>=b^2, (* Condition for side of the base to be at least 1 *)
+a^2(1-Sqrt[2])+3b^2>=0, (* Condition for distance between different bases at least 1 *)
+x^2+y^2+z^2==1, (* Condition for the antiprism at {a,0,b} *)
+a*x+b*z==a^2-b^2 (* Condition for the second antiprism to be congruent *)
+}
+},
+{x,y,z,a,b}]
+
+
+{0.598038,{x->0.373229,y->0.768033,z->0.520409,a->-0.73451,b->0.678598}}
+
+NMaximize[{
+Min[EuclideanDistance[{x,y,1-b},{a,0,b}],
+EuclideanDistance[{y,-x,1-b},{a,0,b}],
+EuclideanDistance[{-x,-y,1-b},{a,0,b}],
+EuclideanDistance[{-y,x,1-b},{a,0,b}]]-Sqrt[a^2+b^2],
+{b>0,
+b<0.5,
+a^2>=b^2,
+a^2+b^2>1,
+a^2(1-Sqrt[2])+3b^2>=0,
+x^2+y^2== a^2,
+x>0,
+y>0,
+a>0
+}
+},
+{x,y,a,b}]
+{-0.221054,{x->0.662827,y->0.662827,a->0.937379,b->0.348311}}
+Maximize[{
+RankedMin[{EuclideanDistance[{x,y,1-b},{a,0,b}],
+EuclideanDistance[{y,-x,1-b},{a,0,b}],
+EuclideanDistance[{-x,-y,1-b},{a,0,b}],
+EuclideanDistance[{-y,x,1-b},{a,0,b}]},1]+
+RankedMin[{EuclideanDistance[{x,y,1-b},{a,0,b}],
+EuclideanDistance[{y,-x,1-b},{a,0,b}],
+EuclideanDistance[{-x,-y,1-b},{a,0,b}],
+EuclideanDistance[{-y,x,1-b},{a,0,b}]},2]-Sqrt[a^2+b^2]-1,
+{b>0,
+b<0.5,
+a^2>=b^2,
+a^2+b^2>1,
+a^2(1-Sqrt[2])+3b^2>=0,
+x^2+y^2== a^2,
+x>0,
+y>0,
+a>0
+}
+},
+{x,y,a,b}]
+{-0.336696,{x->0.937379,y->0.,a->0.937379,b->0.348311}}
+Maximize[{EuclideanDistance[{x,y,1-b},{a,0,b}]+EuclideanDistance[{y,-x,1-b},{a,0,b}]-Sqrt[a^2+b^2]-1,
+{b>0,
+b<0.5,
+a^2>=b^2,
+a^2+b^2>1,
+a^2(1-Sqrt[2])+3b^2>=0,
+x^2+y^2== a^2,
+x>=0,
+y>=0,
+a>=0
+}
+},
+{x,y,a,b}]
+{-0.336696,{x->0.937379,y->0.,a->0.937379,b->0.348311}}
