@@ -1,0 +1,234 @@
+import fractions
+import math
+import itertools
+import sys
+
+def CheckLatticeDifference(first, second):
+    for i in range(0, 5):
+        if math.floor(first[i] - second[i]) != first[i] - second[i]:
+            return False
+    return True
+    
+def CheckParallelogram(arg1, arg2, arg3, arg4):
+    for i in range(0, 5):
+        if arg1[i] + arg3[i] != arg2[i] + arg4[i]:
+            return False
+    return True
+    
+def OrderPyramid(vertices):
+    for perm in itertools.permutations(range(0, 5)):
+        if CheckParallelogram(vertices[perm[1]], vertices[perm[2]], vertices[perm[3]], vertices[perm[4]]):
+            return [vertices[it] for it in perm]
+    return []
+    
+def OrderCrosspolytope(vertices):
+    for perm in itertools.permutations(range(0, 5)):
+        if CheckParallelogram(vertices[perm[0]], vertices[perm[1]], vertices[perm[3]], vertices[perm[4]]) and \
+                CheckParallelogram(vertices[perm[0]], vertices[perm[2]], vertices[perm[3]], vertices[5]):
+            res = [vertices[it] for it in perm]
+            res.append(vertices[5])
+            return res
+    return []
+    
+def OrderPrism(vertices):
+    for perm in itertools.permutations(range(0, 5)):
+        if CheckParallelogram(vertices[perm[0]], vertices[perm[1]], vertices[perm[4]], vertices[perm[3]]) and \
+                CheckParallelogram(vertices[perm[0]], vertices[perm[2]], vertices[5], vertices[perm[3]]):
+            res = [vertices[it] for it in perm]
+            res.append(vertices[5])
+            return res
+    return []
+    
+def OrderCube(vertices):
+    for perm in itertools.permutations(range(0, 7)):
+        if CheckParallelogram(vertices[perm[0]], vertices[perm[1]], vertices[perm[2]], vertices[perm[3]]) and \
+           CheckParallelogram(vertices[perm[0]], vertices[perm[4]], vertices[perm[5]], vertices[perm[1]]) and \
+           CheckParallelogram(vertices[perm[1]], vertices[perm[5]], vertices[perm[6]], vertices[perm[2]]) and \
+           CheckParallelogram(vertices[perm[2]], vertices[perm[6]], vertices[7], vertices[perm[3]]):
+            res = [vertices[it] for it in perm]
+            res.append(vertices[7])
+            return res
+    return []
+    
+def CheckCrosspolytope(vertices):
+    for i in range(0, 5):
+        if (vertices[0][i] + vertices[1][i] + vertices[2][i] + vertices[3][i] + vertices[4][i] + vertices[5][i]) % 3 != 0:
+            return False
+    return True
+    
+def PrintOrderedDual(vertices, outputFile):
+    if len(vertices) == 4:
+        st1 = "SIMPLEX|"
+        st2 = "|".join([" ".join(map(str, vertex)) for vertex in vertices])
+        outputFile.write(st1 + st2 + "\n")
+        return 0
+    if len(vertices) == 5:
+        pyramidOrder = OrderPyramid(vertices)
+        st1 = "PYRAMID|"
+        st2 = "|".join([" ".join(map(str, vertex)) for vertex in pyramidOrder])
+        outputFile.write(st1 + st2 + "\n")
+        return 0
+    if len(vertices) == 8:
+        cubeOrder = OrderCube(vertices)
+        st1 = "CUBE|"
+        st2 = "|".join([" ".join(map(str, vertex)) for vertex in cubeOrder])
+        outputFile.write(st1 + st2 + "\n")
+        return 0
+    if len(vertices) == 6:
+        if CheckCrosspolytope(vertices):
+            crosspolytopeOrder = OrderCrosspolytope(vertices)
+            st1 = "CROSSPOLYTOPE|"
+            st2 = "|".join([" ".join(map(str, vertex)) for vertex in crosspolytopeOrder])
+            outputFile.write(st1 + st2 + "\n")
+            return 0
+        else:
+            prismOrder = OrderPrism(vertices)
+            st1 = "PRISM|"
+            st2 = "|".join([" ".join(map(str, vertex)) for vertex in prismOrder])
+            outputFile.write(st1 + st2 + "\n")
+            return 0
+    outputFile.write("ERROR\n")
+    return 1
+
+class TData:
+    def __init__(self):
+        self.Id = -1
+        self.Vert = []
+        self.Faces2D = []
+        
+    def Centroid(self, face2D):
+        res = [fractions.Fraction(), fractions.Fraction(), fractions.Fraction(), fractions.Fraction(), fractions.Fraction()]
+        for vert in face2D:
+            for i in range(0, 5):
+                res[i] += self.Vert[vert - 1][i]
+        for i in range(0, 5):
+            res[i] /= len(face2D)
+        return res
+        
+    def PrepareCentroids(self):
+        res = []
+        for face2D in self.Faces2D:
+            centroid = self.Centroid(face2D)
+            centroidIntegral = [math.floor(t) for t in centroid]
+            centroidFractional = [t - math.floor(t) for t in centroid]
+            res.append([centroid, centroidIntegral, centroidFractional])
+        return res
+        
+    def FindDuals(self):
+        res = []
+        centroids = self.PrepareCentroids()
+        centroids.sort(key = lambda t: t[2])
+        last = []
+        dualCnt = 0
+        for i in range(0, len(centroids)):
+            if last != centroids[i][2]:
+                res.append([ centroids[i][1] ])
+                dualCnt += 1
+            else:
+                res[dualCnt - 1].append(centroids[i][1])
+            last = centroids[i][2]
+        return res
+        
+    def PrintDuals(self, outputFile):
+        outputFile.write(str(self.Id) + "\n")
+        duals = self.FindDuals()
+        outputFile.write(str(len(duals)) + "\n")
+        for item in duals:
+            PrintOrderedDual(item, outputFile)
+
+
+def ReadData(inputFile):
+    res = TData()
+    
+    # read Id 
+    st = inputFile.readline().strip('\n')
+    res.Id = int(st)
+    
+    # read num of vertices
+    st = inputFile.readline().strip('\n')
+    nVertices = int(st)
+    
+    # read vertices
+    for i in range(0, nVertices):
+        st = inputFile.readline().strip('\n').lstrip(" ")
+        sp = st.split(" ")
+        vertex = [ fractions.Fraction(t) for t in sp[1 : ] ]
+        res.Vert.append(vertex)
+        
+    # read num of facets
+    st = inputFile.readline().strip('\n')
+    nFacets = int(st)
+    
+    # skip facets
+    for i in range(0, nFacets):
+        inputFile.readline()
+        
+    # skip line "5"
+    inputFile.readline()
+    
+    # read num of facets once again
+    st = inputFile.readline().strip('\n')
+    nFaces4D = int(st)
+    
+    # skip facets
+    for i in range(0, nFaces4D):
+        inputFile.readline()
+        
+    # read num of 3-faces
+    st = inputFile.readline().strip('\n')
+    nFaces3D = int(st)
+    
+    # skip 3-faces
+    for i in range(0, nFaces3D):
+        inputFile.readline()
+        
+    # read num of 2-faces
+    st = inputFile.readline().strip('\n')
+    nFaces2D = int(st)
+    
+    # process 2-faces
+    for i in range(0, nFaces2D):
+        st = inputFile.readline().strip('\n')
+        sp = st.split(" ")
+        face = [ int(t) for t in sp[2 : ] ]
+        res.Faces2D.append(face)
+        
+        
+    # read num of 1-faces
+    st = inputFile.readline().strip('\n')
+    nFaces1D = int(st)
+    
+    # skip 1-faces
+    for i in range(0, nFaces1D):
+        inputFile.readline()
+        
+    # read num of vertices
+    st = inputFile.readline().strip('\n')
+    nFaces0D = int(st)
+    
+    # skip vertices
+    for i in range(0, nFaces0D):
+        inputFile.readline()
+        
+    return res 
+        
+if len(sys.argv) < 3:
+    sys.exit(0)
+
+inputFileName = sys.argv[1]
+outputFileName = sys.argv[2]
+
+inputFile = open(inputFileName, "r")
+outputFile = open(outputFileName, "w")
+
+st = inputFile.readline().strip("\n")
+nPolytopes = int(st)
+
+for i in range(0, nPolytopes):
+    data = ReadData(inputFile)
+    data.PrintDuals(outputFile)
+    print(str(i + 1) + " of " + str(nPolytopes) + " instances processed")
+    
+inputFile.close()
+outputFile.close()
+

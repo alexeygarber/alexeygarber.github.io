@@ -1,0 +1,152 @@
+import sys
+
+def Mod2(arg):
+    if arg % 2 == 0:
+        return 0
+    return 1
+    
+def FacetVector(arg1, arg2):
+    res = 0
+    for i in range(0, 5):
+        res *= 2
+        res += Mod2(arg1[i] - arg2[i])
+    return res
+    
+def EncodeComplexFacet(arg):
+    sortedTriple = sorted(arg)
+    return 1024 * sortedTriple[0] + 32 * sortedTriple[1] + sortedTriple[2]
+    
+def DecodeComplexFacet(arg):
+    third = arg % 32
+    second = (arg // 32) % 32
+    first = arg // 1024
+    return [first, second, third]
+    
+def AddSimplex(arg, complexFacetSet):
+    vec0 = FacetVector(arg[0], arg[1])
+    vec1 = FacetVector(arg[0], arg[2])
+    vec2 = FacetVector(arg[0], arg[3])
+    vec3 = FacetVector(arg[2], arg[3])
+    vec4 = FacetVector(arg[1], arg[3])
+    vec5 = FacetVector(arg[1], arg[2])
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec4, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec1, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec4, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec1, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec4, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec4, vec5]))
+    
+def AddCrosspolytope(arg, complexFacetSet):
+    vec0 = FacetVector(arg[0], arg[1])
+    vec1 = FacetVector(arg[0], arg[2])
+    vec2 = FacetVector(arg[1], arg[2])
+    vec3 = FacetVector(arg[0], arg[4])
+    vec4 = FacetVector(arg[0], arg[5])
+    vec5 = FacetVector(arg[1], arg[5])
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec4, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec1, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec4, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec1, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec4, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec4, vec5]))
+    
+def AddPyramid(arg, complexFacetSet):
+    vec0 = FacetVector(arg[0], arg[1])
+    vec1 = FacetVector(arg[0], arg[2])
+    vec2 = FacetVector(arg[1], arg[2])
+    vec3 = FacetVector(arg[0], arg[3])
+    vec4 = FacetVector(arg[0], arg[4])
+    vec5 = FacetVector(arg[1], arg[4])
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec4, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec1, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec4, vec2]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec1, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec4, vec5]))
+    complexFacetSet.add(EncodeComplexFacet([vec3, vec4, vec5]))
+    
+def AddPrism(arg, complexFacetSet):
+    vec0 = FacetVector(arg[0], arg[1])
+    vec1 = FacetVector(arg[0], arg[2])
+    vec2 = FacetVector(arg[1], arg[2])
+    complexFacetSet.add(EncodeComplexFacet([vec0, vec1, vec2]))
+    
+    
+class Delaunay3DCell:
+    def __init__(self):
+        self.Type = "NONE"
+        self.Vert = []
+        
+    def Read(self, st):
+        sp = st.split("|")
+        self.Type = sp[0]
+        self.Vert = []
+        if len(sp) < 2:
+            return
+        for vertString in sp[1 : ]:
+            vertex = []
+            subsp = vertString.split(" ")
+            for coordString in subsp:
+                vertex.append(int(coordString))
+            self.Vert.append(vertex)
+            
+if len(sys.argv) < 4:
+    sys.exit()
+    
+inputFile = open(sys.argv[1], "r")
+outputFile = open(sys.argv[2], "w")
+dest = sys.argv[3]
+
+while True:
+    st = inputFile.readline().strip("\n")
+    if not st:
+        break
+    latticeId = int(st)
+    st = inputFile.readline().strip("\n")
+    nCells = int(st)
+    complexFacetSet = set()
+    cell = Delaunay3DCell()
+    
+    for i in range(0, nCells):
+        st = inputFile.readline().strip("\n")
+        cell.Read(st)
+        if cell.Type == "SIMPLEX":
+            AddSimplex(cell.Vert, complexFacetSet)
+        elif cell.Type == "PYRAMID":
+            AddPyramid(cell.Vert, complexFacetSet)
+        elif cell.Type == "CROSSPOLYTOPE":
+            AddCrosspolytope(cell.Vert, complexFacetSet)
+        elif cell.Type == "PRISM":
+            AddPrism(cell.Vert, complexFacetSet)
+            
+    if len(complexFacetSet) != 0:
+        line1 = "descrSuffix := \" (File: " + sys.argv[1] + ", ID: " + str(latticeId) + ")\\n\";"
+        line2 = "cplx := SCFromFacets("
+        addStr = []
+        for item in complexFacetSet:
+            decodedFacet = DecodeComplexFacet(item)
+            addStr.append("[" + ", ".join([str(t) for t in decodedFacet]) + "]")
+        line2 += "[" + ", ".join([str(t) for t in addStr]) + "]);"
+        line3 = "edges := SCSkel(cplx, 1);"
+        line4 = "mat0 := SCCoboundaryOperatorMatrix(cplx, 0);"
+        line5 = "mat1 := SCCoboundaryOperatorMatrix(cplx, 1);"
+        line6 = "AppendTo(\"" + dest + "\", Size(edges) - RankMat(mat1) - RankMat(mat0), descrSuffix);"
+        outputFile.write(line1 + "\n")
+        outputFile.write(line2 + "\n")
+        outputFile.write(line3 + "\n")
+        outputFile.write(line4 + "\n")
+        outputFile.write(line5 + "\n")
+        outputFile.write(line6 + "\n")
+    else:
+        line1 = "descrSuffix := \" (File: " + sys.argv[1] + ", ID: " + str(latticeId) + ")\\n\";"
+        line2 = "AppendTo(\"" + dest + "\", \"Empty complex\", descrSuffix);"
+        outputFile.write(line1 + "\n")
+        outputFile.write(line2 + "\n")
+
+inputFile.close()
+outputFile.close()

@@ -1,0 +1,268 @@
+import datetime;
+
+filenames = ['/home/ai/sage_files/DualCell_data_01.txt',
+            '/home/ai/sage_files/DualCell_data_02.txt',
+            '/home/ai/sage_files/DualCell_data_03.txt',
+            '/home/ai/sage_files/DualCell_data_04.txt',
+            '/home/ai/sage_files/DualCell_data_05.txt',
+            '/home/ai/sage_files/DualCell_data_06.txt',
+            '/home/ai/sage_files/DualCell_data_07.txt',
+            '/home/ai/sage_files/DualCell_data_08.txt',
+            '/home/ai/sage_files/DualCell_data_09.txt',
+            '/home/ai/sage_files/DualCell_data_10.txt',
+            '/home/ai/sage_files/DualCell_data_11.txt',
+            '/home/ai/sage_files/DualCell_data_12.txt',
+            '/home/ai/sage_files/DualCell_data_13.txt',
+            '/home/ai/sage_files/DualCell_data_14.txt',
+            '/home/ai/sage_files/DualCell_data_15.txt']
+result = [];
+cur_file = 0;
+for filename in filenames:
+    f = open(filename);
+    par_cnt = 0;
+    tmp = f.readline();
+    while not(tmp==''):
+        cur_par = [];
+        cell_num = map(int,tmp.split())[0];
+        #par_data.append([]);
+        for i in range(cell_num):
+            tmp = f.readline();
+    #        cur_par.append(tmp.split('|'));
+    #        for j in range(1,len(cur_par[-1])):
+    #            cur_par[-1][j] = vector(map(int,cur_par[-1][j].split(' ')))
+        tmp = f.readline();
+        par_cnt += 1;
+    f.close();
+    print 'We found', par_cnt, 'polytopes in file number', cur_file, 'of', len(filenames), '. Starting...';
+    f = open(filename);
+    result.append([-1]*par_cnt);
+    for cur in range(par_cnt):
+        print datetime.datetime.now().strftime("Time: %I:%M:%S"), 'Working on', cur, 'of', par_cnt, 'from the file', cur_file, 'of', len(filenames);
+        cur_par = [];
+        tmp = f.readline();
+        cell_num = map(int,tmp.split())[0];
+        for i in range(cell_num):
+            tmp = f.readline();
+            cur_par.append(tmp.split('|'));
+            for j in range(1,len(cur_par[-1])):
+                cur_par[-1][j] = vector(map(int,cur_par[-1][j].split(' ')))
+        Z_case = True;
+        for cell in cur_par:
+            if not ((cell[0]=='SIMPLEX') or (cell[0]=='CROSSPOLYTOPE')):
+                Z_case = False;
+        if Z_case:
+            result[cur_file][cur] = 'Z';
+        else:
+            par_vec=[];
+            for tmp in cur_par:
+                if tmp[0]=='SIMPLEX':
+                    for i in range(1,5):
+                        for j in range (i+1,5):
+                            x=tmp[i]-tmp[j];
+                            if x<0:
+                                x=-x;
+                            if x not in par_vec:
+                                par_vec.append(x);
+                        
+                if tmp[0]=='PRISM':
+                    for i in range(1,4):
+                        for j in range (i+1,4):
+                            x=tmp[i]-tmp[j];
+                            if x<0:
+                                x=-x;
+                            if x not in par_vec:
+                                par_vec.append(x);
+        
+                if tmp[0]=='PYRAMID':
+                    for i in range(2,6):
+                        x=tmp[1]-tmp[i];
+                        if x<0:
+                            x=-x;
+                        if x not in par_vec:
+                            par_vec.append(x);
+                    for i in range(2,4):
+                        x=tmp[i]-tmp[i+1];
+                        if x<0:
+                            x=-x;
+                        if x not in par_vec:
+                            par_vec.append(x);
+        
+                if tmp[0]=='CROSSPOLYTOPE':
+                    for i in [2,3,5,6]:
+                        x=tmp[1]-tmp[i];
+                        if x<0:
+                            x=-x;
+                        if x not in par_vec:
+                            par_vec.append(x);
+                    for i in [3,6]:
+                        x=tmp[2]-tmp[i];
+                        if x<0:
+                            x=-x;
+                        if x not in par_vec:
+                            par_vec.append(x);
+    
+            par_graph = Graph(len(par_vec));
+            par_cycles = [];
+            for tmp in cur_par:
+                if tmp[0]=='SIMPLEX':                
+                    x1=tmp[1]-tmp[2];
+                    if x1<0:
+                        x1 = -x1;
+                    i1 = par_vec.index(x1);
+                    x2=tmp[1]-tmp[3];
+                    if x2<0:
+                        x2 = -x2;
+                    i2 = par_vec.index(x2);
+                    x3=tmp[1]-tmp[4];
+                    if x3<0:
+                        x3=-x3;
+                    i3 = par_vec.index(x3);
+                    x4=tmp[2]-tmp[3];
+                    if x4<0:
+                        x4=-x4;
+                    i4 = par_vec.index(x4);    
+                    x5=tmp[2]-tmp[4];
+                    if x5<0:
+                        x5=-x5;
+                    i5 = par_vec.index(x5);
+                    x6=tmp[3]-tmp[4];
+                    if x6<0:
+                        x6=-x6;
+                    i6 = par_vec.index(x6);
+                    par_graph.add_edges([(i1,i2),(i1,i4),(i2,i4),
+                                        (i2,i3),(i2,i6),(i3,i6),
+                                        (i1,i3),(i1,i5),(i3,i5),
+                                        (i4,i5),(i4,i6),(i5,i6)]);
+                    par_cycles.append([i1,i2,i4]);
+                    par_cycles.append([i2,i3,i6]);
+                    par_cycles.append([i1,i3,i5]);
+                    par_cycles.append([i4,i5,i6]);
+    
+                    par_cycles.append([i1,i2,i3]);
+                    par_cycles.append([i1,i4,i5]);
+                    par_cycles.append([i2,i4,i6]);
+                    #par_cycles.append([i3,i5,i6]);
+    
+                if tmp[0]=='PYRAMID':
+                    x1=tmp[1]-tmp[2];
+                    if x1<0:
+                        x1 = -x1;
+                    i1 = par_vec.index(x1);
+                    x2=tmp[1]-tmp[3];
+                    if x2<0:
+                        x2 = -x2;
+                    i2 = par_vec.index(x2);#
+                    x3=tmp[1]-tmp[4];
+                    if x3<0:
+                        x3 = -x3;
+                    i3 = par_vec.index(x3);
+                    x4=tmp[1]-tmp[5];
+                    if x4<0:
+                        x4 = -x4;
+                    i4 = par_vec.index(x4);
+    
+                    x5=tmp[2]-tmp[3];
+                    if x5<0:
+                        x5 = -x5;
+                    i5 = par_vec.index(x5);        
+                    x6=tmp[3]-tmp[4];
+                    if x6<0:
+                        x6 = -x6;
+                    i6 = par_vec.index(x6);
+    
+                    par_graph.add_edges([(i1,i2),(i1,i5),(i2,i5),
+                                        (i2,i3),(i2,i6),(i3,i6),
+                                        (i1,i4),(i1,i6),(i4,i6),
+                                        (i3,i4),(i3,i5),(i4,i5)]);
+    
+                    par_cycles.append([i1,i2,i5]);
+                    par_cycles.append([i2,i3,i6]);
+                    par_cycles.append([i1,i4,i6]);
+                    par_cycles.append([i3,i4,i5]);
+                    par_cycles.append([i1,i2,i3,i4]);
+                if tmp[0]=='CROSSPOLYTOPE':
+                    x1=tmp[1]-tmp[2];
+                    if x1<0:
+                        x1 = -x1;
+                    i1 = par_vec.index(x1);
+                    x2=tmp[1]-tmp[3];
+                    if x2<0:
+                        x2 = -x2;
+                    i2 = par_vec.index(x2);##
+                    x3=tmp[1]-tmp[5];
+                    if x3<0:
+                        x3 = -x3;
+                    i3 = par_vec.index(x3);
+                    x4=tmp[1]-tmp[6];
+                    if x4<0:
+                        x4 = -x4;
+                    i4 = par_vec.index(x4);
+    
+                    x5=tmp[2]-tmp[3];
+                    if x5<0:
+                        x5 = -x5;
+                    i5 = par_vec.index(x5);        
+                    x6=tmp[2]-tmp[6];
+                    if x6<0:
+                        x6 = -x6;
+                    i6 = par_vec.index(x6);
+    
+                    par_graph.add_edges([(i1,i2),(i1,i5),(i2,i5),
+                                        (i2,i3),(i2,i6),(i3,i6),
+                                        (i1,i4),(i1,i6),(i4,i6),
+                                        (i3,i4),(i3,i5),(i4,i5)]);
+    
+                    par_cycles.append([i1,i2,i5]);
+                    par_cycles.append([i2,i3,i6]);
+                    par_cycles.append([i1,i4,i6]);
+                    par_cycles.append([i3,i4,i5]);
+                    par_cycles.append([i1,i2,i3,i4]);
+                    par_cycles.append([i2,i5,i4,i6]);
+                    par_cycles.append([i1,i6,i3,i5]);
+    
+                if tmp[0]=='PRISM':
+                    x1=tmp[1]-tmp[2];
+                    if x1<0:
+                        x1 = -x1;
+                    i1 = par_vec.index(x1);
+                    x2=tmp[1]-tmp[3];
+                    if x2<0:
+                        x2 = -x2;
+                    i2 = par_vec.index(x2);###
+                    x3=tmp[2]-tmp[3];
+                    if x3<0:
+                        x3=-x3;
+                    i3 = par_vec.index(x3);
+                    par_graph.add_edges([(i1,i2),(i1,i3),(i2,i3)])
+                    par_cycles.append([i1,i2,i3]);
+    
+            matrix_cycles = [];
+            for x in par_cycles:
+                if len(x)==3:
+                    y=sorted(x);
+                    tmp_vec = [0]*Integer(len(par_vec)*(len(par_vec)-1)/2);
+                    tmp_vec[Integer(y[0]+y[1]*(y[1]-1)/2)] = 1;
+                    tmp_vec[Integer(y[1]+y[2]*(y[2]-1)/2)] = 1;
+                    tmp_vec[Integer(y[0]+y[2]*(y[2]-1)/2)] = -1;
+                    matrix_cycles.append(tmp_vec);
+                if len(x)==4:
+                    tmp_vec = [0]*Integer(len(par_vec)*(len(par_vec)-1)/2);
+                    for i in range(3):
+                        if x[i]<x[i+1]:
+                            tmp_vec[Integer(x[i]+x[i+1]*(x[i+1]-1)/2)] = 1;
+                        else:
+                            tmp_vec[Integer(x[i+1]+x[i]*(x[i]-1)/2)] = -1;
+                    if x[3]<x[0]:
+                        tmp_vec[Integer(x[3]+x[0]*(x[0]-1)/2)] = 1;
+                    else:
+                        tmp_vec[Integer(x[0]+x[3]*(x[3]-1)/2)] = -1;
+                    matrix_cycles.append(tmp_vec);
+            if (len(par_graph.vertices())>0) and par_graph.is_connected():
+                result[cur_file][cur]=rank(Matrix(matrix_cycles)) - (len(par_graph.edges())-len(par_graph.vertices())+1)
+            else:
+                result[cur_file][cur]='Graph is not connected';
+    
+    #print 'Total', par_cnt;    
+    cur_file += 1;
+for i in range(len(result)):
+    print 'Condition works for', result[i].count(0)+result[i].count('Z')+result[i].count('Graph is not connected'), 'of', len(result[i]), 'in the file', i;
